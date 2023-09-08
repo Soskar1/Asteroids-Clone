@@ -1,16 +1,60 @@
 package com.game.asteroids;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameScreenInputProcessor implements InputProcessor {
+    private final Vector2 movementInput;
+
+    public GameScreenInputProcessor() {
+        movementInput = new Vector2();
+    }
+
+    public Vector2 getMovementInput() {
+        return movementInput;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        if (keycode == Input.Keys.W) {
+            ++movementInput.y;
+        }
+
+        if (keycode == Input.Keys.A) {
+            --movementInput.x;
+        }
+
+        if (keycode == Input.Keys.S) {
+            --movementInput.y;
+        }
+
+        if (keycode == Input.Keys.D) {
+            ++movementInput.x;
+        }
+
+        return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+        if (keycode == Input.Keys.W) {
+            --movementInput.y;
+        }
+
+        if (keycode == Input.Keys.A) {
+            ++movementInput.x;
+        }
+
+        if (keycode == Input.Keys.S) {
+            ++movementInput.y;
+        }
+
+        if (keycode == Input.Keys.D) {
+            --movementInput.x;
+        }
+
+        return true;
     }
 
     @Override

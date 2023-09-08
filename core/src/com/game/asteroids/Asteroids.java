@@ -15,7 +15,8 @@ public class Asteroids extends Game {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 
-		gameScreen = new GameScreen(this);
+		GameScreenInputProcessor gameScreenInputProcessor = new GameScreenInputProcessor();
+		gameScreen = new GameScreen(this, gameScreenInputProcessor);
 
 		MainMenuInputProcessor inputProcessor = new MainMenuInputProcessor(this, gameScreen);
 		mainMenuScreen = new MainMenuScreen(this, inputProcessor);
@@ -28,10 +29,6 @@ public class Asteroids extends Game {
 	@Override
 	public void render () {
 		super.render();
-
-		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			setScreen(gameScreen);
-		}
 	}
 	
 	@Override
@@ -39,6 +36,7 @@ public class Asteroids extends Game {
 		batch.dispose();
 		font.dispose();
 		mainMenuScreen.dispose();
+		gameScreen.dispose();
 	}
 
 	public BitmapFont getBitmapFont() {
