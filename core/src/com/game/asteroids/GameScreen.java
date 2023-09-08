@@ -10,20 +10,28 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameScreen implements Screen {
     private final SpriteBatch batch;
     private final BitmapFont font;
+    private final GameScreenInputProcessor inputProcessor;
+    private final Spaceship spaceship;
 
-    public GameScreen(Asteroids game) {
+    public GameScreen(Asteroids game, GameScreenInputProcessor inputProcessor) {
         batch = game.getSpriteBatch();
         font = game.getBitmapFont();
+        spaceship = new Spaceship();
+        this.inputProcessor = inputProcessor;
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(1, 1, 1, 1);
+        ScreenUtils.clear(0, 0, 0, 1);
+
+        batch.begin();
+        batch.draw(spaceship.getTexture(), spaceship.getX(), spaceship.getY());
+        batch.end();
     }
 
     @Override
