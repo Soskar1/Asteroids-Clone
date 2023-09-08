@@ -15,8 +15,10 @@ public class Asteroids extends Game {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 
-		mainMenuScreen = new MainMenuScreen(this);
 		gameScreen = new GameScreen(this);
+
+		MainMenuInputProcessor inputProcessor = new MainMenuInputProcessor(this, gameScreen);
+		mainMenuScreen = new MainMenuScreen(this, inputProcessor);
 		setScreen(mainMenuScreen);
 
 		Gdx.graphics.setContinuousRendering(false);

@@ -1,11 +1,21 @@
 package com.game.asteroids;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputProcessor;
 
 public class MainMenuInputProcessor implements InputProcessor {
+    private final GameScreen gameScreen;
+    private final Game game;
+
+    public MainMenuInputProcessor(Game game, GameScreen gameScreen) {
+        this.game = game;
+        this.gameScreen = gameScreen;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        game.setScreen(gameScreen);
+        return true;
     }
 
     @Override
