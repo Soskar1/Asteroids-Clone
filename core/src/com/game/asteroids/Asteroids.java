@@ -1,10 +1,8 @@
 package com.game.asteroids;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Asteroids extends Game {
 	private SpriteBatch batch;
@@ -47,9 +45,5 @@ public class Asteroids extends Game {
 
 	public SpriteBatch getSpriteBatch() {
 		return batch;
-	}
-
-	public Screen getGameScreen() {
-		return gameScreen;
 	}
 }

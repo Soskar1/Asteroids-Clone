@@ -1,7 +1,7 @@
 package com.game.asteroids;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,11 +11,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class MainMenuScreen implements Screen {
     private final BitmapFont font;
     private final SpriteBatch batch;
+    private final InputProcessor mainMenuInputProcessor;
     private OrthographicCamera camera;
 
-    public MainMenuScreen(Asteroids game) {
+    public MainMenuScreen(Asteroids game, InputProcessor mainMenuInputProcessor) {
         font = game.getBitmapFont();
         batch = game.getSpriteBatch();
+        this.mainMenuInputProcessor = mainMenuInputProcessor;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
@@ -23,7 +25,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(mainMenuInputProcessor);
     }
 
     @Override
