@@ -22,8 +22,8 @@ public class Asteroids extends Game {
 		mainMenuScreen = new MainMenuScreen(this, inputProcessor);
 		setScreen(mainMenuScreen);
 
-		Gdx.graphics.setContinuousRendering(false);
-		Gdx.graphics.requestRendering();
+//		Gdx.graphics.setContinuousRendering(false);
+//		Gdx.graphics.requestRendering();
 	}
 
 	@Override

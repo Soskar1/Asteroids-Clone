@@ -4,15 +4,23 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.HashMap;
+
 public class GameScreenInputProcessor implements InputProcessor {
     private final Vector2 movementInput;
+    private final HashMap<Integer, InputAction> inputActions;
 
     public GameScreenInputProcessor() {
         movementInput = new Vector2();
+        inputActions = new HashMap<Integer, InputAction>();
     }
 
     public Vector2 getMovementInput() {
         return movementInput;
+    }
+
+    public void RegisterInputAction(int keyCode, InputAction action) {
+        inputActions.put(keyCode, action);
     }
 
     @Override
@@ -31,6 +39,10 @@ public class GameScreenInputProcessor implements InputProcessor {
 
         if (keycode == Input.Keys.D) {
             ++movementInput.x;
+        }
+
+        if (inputActions.containsKey(keycode)) {
+            inputActions.get(keycode).execute();
         }
 
         return true;

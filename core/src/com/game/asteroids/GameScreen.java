@@ -1,9 +1,11 @@
 package com.game.asteroids;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -14,15 +16,29 @@ public class GameScreen implements Screen {
     private final Spaceship spaceship;
     private final OrthographicCamera camera;
 
-    public GameScreen(Asteroids game, GameScreenInputProcessor inputProcessor) {
+    public GameScreen(Asteroids game, final GameScreenInputProcessor inputProcessor) {
         batch = game.getSpriteBatch();
         font = game.getBitmapFont();
 
         spaceship = new Spaceship();
-        this.inputProcessor = inputProcessor;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
+
+        this.inputProcessor = inputProcessor;
+        class MoveAction implements InputAction {
+
+            @Override
+            public void execute() {
+                spaceship.Move(inputProcessor.getMovementInput());
+            }
+        }
+
+        MoveAction moveAction = new MoveAction();
+        inputProcessor.RegisterInputAction(Input.Keys.W, moveAction);
+        inputProcessor.RegisterInputAction(Input.Keys.A, moveAction);
+        inputProcessor.RegisterInputAction(Input.Keys.S, moveAction);
+        inputProcessor.RegisterInputAction(Input.Keys.D, moveAction);
     }
 
     @Override
@@ -36,11 +52,15 @@ public class GameScreen implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        Sprite spaceshipSprite = new Sprite(spaceship.getTexture());
+        spaceshipSprite.setPosition(spaceship.getX(), spaceship.getY());
+        //spaceshipSprite.setRotation();
+
         batch.begin();
-        batch.draw(spaceship.getTexture(), spaceship.getX(), spaceship.getY());
+        spaceshipSprite.draw(batch);
         batch.end();
 
-        spaceship.Move(inputProcessor.getMovementInput());
+        //spaceship.Move(inputProcessor.getMovementInput());
     }
 
     @Override
