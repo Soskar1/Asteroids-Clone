@@ -1,7 +1,6 @@
 package com.game.asteroids;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,6 +10,7 @@ public class Asteroids extends Game {
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private MainMenuScreen mainMenuScreen;
+	private GameScreen gameScreen;
 	
 	@Override
 	public void create () {
@@ -18,12 +18,20 @@ public class Asteroids extends Game {
 		font = new BitmapFont();
 
 		mainMenuScreen = new MainMenuScreen(this);
+		gameScreen = new GameScreen(this);
 		setScreen(mainMenuScreen);
+
+		Gdx.graphics.setContinuousRendering(false);
+		Gdx.graphics.requestRendering();
 	}
 
 	@Override
 	public void render () {
 		super.render();
+
+		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+			setScreen(gameScreen);
+		}
 	}
 	
 	@Override
@@ -39,5 +47,9 @@ public class Asteroids extends Game {
 
 	public SpriteBatch getSpriteBatch() {
 		return batch;
+	}
+
+	public Screen getGameScreen() {
+		return gameScreen;
 	}
 }
