@@ -2,7 +2,6 @@ package com.game.asteroids;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
 
@@ -14,7 +13,7 @@ public class SpaceshipInput implements InputProcessor {
     public SpaceshipInput() {
         movementInput = 0;
         rotationInput = 0;
-        inputActions = new HashMap<Integer, InputAction>();
+        inputActions = new HashMap<>();
     }
 
     public int getMovementInput() {

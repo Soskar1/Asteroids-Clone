@@ -30,6 +30,7 @@ public class GameScreen implements Screen {
 
         this.inputProcessor = inputProcessor;
         gameObjects.add(new Spaceship(inputProcessor));
+        gameObjects.add(new Bullet());
     }
 
     @Override

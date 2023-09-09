@@ -2,7 +2,6 @@ package com.game.asteroids;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import java.awt.*;
@@ -16,10 +15,10 @@ public class Spaceship extends GameObject {
         Texture texture = new Texture(Gdx.files.internal("Spaceship.png"));
         setSprite(texture);
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
-        moveSpeed = 200;
-        rotationSpeed = 100;
 
         spaceshipInput = input;
+        moveSpeed = 200;
+        rotationSpeed = 100;
     }
 
     @Override
@@ -51,9 +50,6 @@ public class Spaceship extends GameObject {
         Vector2 result = new Vector2(0, movementInput);
         result.rotateDeg(rotation);
 
-//        result.x = -movementInput * MathUtils.sinDeg(rotation % 360);
-//        result.y = movementInput * MathUtils.cosDeg(rotation % 360);
-
-        return result;
+        return result.nor();
     }
 }
