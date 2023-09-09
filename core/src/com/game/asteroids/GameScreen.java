@@ -1,15 +1,15 @@
 package com.game.asteroids;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
@@ -18,6 +18,8 @@ public class GameScreen implements Screen {
     private final SpaceshipInput inputProcessor;
     private final OrthographicCamera camera;
     private final ArrayList<GameObject> gameObjects;
+    private final ShapeRenderer shapeRenderer;
+    private final boolean showShapes = false;
 
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         batch = game.getSpriteBatch();
@@ -26,11 +28,12 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
 
-        gameObjects = new ArrayList<GameObject>();
+        gameObjects = new ArrayList<>();
 
         this.inputProcessor = inputProcessor;
         gameObjects.add(new Spaceship(inputProcessor));
-        gameObjects.add(new Bullet());
+
+        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
@@ -47,12 +50,24 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        shapeRenderer.setProjectionMatrix(camera.combined);
 
         batch.begin();
         for (GameObject gameObject : gameObjects) {
             gameObject.getSprite().draw(batch);
         }
         batch.end();
+
+        if (!showShapes)
+            return;
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.GREEN);
+        for (GameObject gameObject : gameObjects) {
+            Rectangle spaceshipRect = gameObject.getRectangle();
+            shapeRenderer.rect(spaceshipRect.x, spaceshipRect.y, spaceshipRect.width, spaceshipRect.height);
+        }
+        shapeRenderer.end();
     }
 
     @Override

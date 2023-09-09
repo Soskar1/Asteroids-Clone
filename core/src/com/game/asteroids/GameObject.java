@@ -20,6 +20,10 @@ public abstract class GameObject {
         return sprite;
     }
 
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
     public void setRectangle(Rectangle newRectangle) {
         rectangle = newRectangle;
     }

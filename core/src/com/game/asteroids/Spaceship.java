@@ -18,7 +18,7 @@ public class Spaceship extends GameObject {
 
         spaceshipInput = input;
         moveSpeed = 200;
-        rotationSpeed = 100;
+        rotationSpeed = 200;
     }
 
     @Override
