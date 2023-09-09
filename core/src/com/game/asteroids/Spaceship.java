@@ -6,35 +6,36 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.awt.*;
 
-public class Spaceship {
-    private final Texture texture;
-    private final Rectangle rectangle;
+public class Spaceship extends GameObject {
     private final int speed;
+    private final SpaceshipInput spaceshipInput;
 
-    public Spaceship() {
-        texture = new Texture(Gdx.files.internal("Spaceship.png"));
-        rectangle = new Rectangle(texture.getWidth(), texture.getHeight());
+    public Spaceship(SpaceshipInput input) {
+        Texture texture = new Texture(Gdx.files.internal("Spaceship.png"));
+        setTexture(texture);
+        setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
         speed = 200;
+
+        spaceshipInput = input;
     }
 
-    public void Move(Vector2 direction) {
-        rectangle.x += (int) (direction.x * speed * Gdx.graphics.getDeltaTime());
-        rectangle.y += (int) (direction.y * speed * Gdx.graphics.getDeltaTime());
+    @Override
+    public void update() {
+        Move();
+        Rotate();
     }
 
-    public Texture getTexture() {
-        return texture;
+    private void Move() {
+        int movementInput = spaceshipInput.getMovementInput();
+        Vector2 currentPosition = getPosition();
+
+        currentPosition.x += movementInput * speed * Gdx.graphics.getDeltaTime();
+        currentPosition.y += movementInput * speed * Gdx.graphics.getDeltaTime();
+
+        setPosition(currentPosition);
     }
 
-    public Rectangle getRectangle() {
-        return rectangle;
-    }
+    private void Rotate() {
 
-    public float getX() {
-        return rectangle.x;
-    }
-
-    public float getY() {
-        return rectangle.y;
     }
 }

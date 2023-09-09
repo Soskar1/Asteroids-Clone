@@ -7,16 +7,21 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.HashMap;
 
 public class SpaceshipInput implements InputProcessor {
-    private final Vector2 movementInput;
+    private int movementInput;
+    private int rotationInput;
     private final HashMap<Integer, InputAction> inputActions;
 
     public SpaceshipInput() {
-        movementInput = new Vector2();
+        movementInput = 0;
+        rotationInput = 0;
         inputActions = new HashMap<Integer, InputAction>();
     }
 
-    public Vector2 getMovementInput() {
+    public int getMovementInput() {
         return movementInput;
+    }
+    public int getRotationInput() {
+        return rotationInput;
     }
 
     public void RegisterInputAction(int keyCode, InputAction action) {
@@ -26,19 +31,19 @@ public class SpaceshipInput implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.W) {
-            ++movementInput.y;
+            ++movementInput;
         }
 
         if (keycode == Input.Keys.A) {
-            --movementInput.x;
+            ++rotationInput;
         }
 
         if (keycode == Input.Keys.S) {
-            --movementInput.y;
+            --movementInput;
         }
 
         if (keycode == Input.Keys.D) {
-            ++movementInput.x;
+            --rotationInput;
         }
 
         if (inputActions.containsKey(keycode)) {
@@ -51,19 +56,11 @@ public class SpaceshipInput implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.W) {
-            --movementInput.y;
-        }
-
-        if (keycode == Input.Keys.A) {
-            ++movementInput.x;
+            --movementInput;
         }
 
         if (keycode == Input.Keys.S) {
-            ++movementInput.y;
-        }
-
-        if (keycode == Input.Keys.D) {
-            --movementInput.x;
+            ++movementInput;
         }
 
         return true;

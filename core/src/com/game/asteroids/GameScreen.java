@@ -7,14 +7,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private final SpriteBatch batch;
     private final BitmapFont font;
     private final SpaceshipInput inputProcessor;
-    private final Spaceship spaceship;
     private final OrthographicCamera camera;
+    private final ArrayList<GameObject> gameObjects;
 
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         batch = game.getSpriteBatch();
@@ -23,8 +26,10 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
 
+        gameObjects = new ArrayList<GameObject>();
+
         this.inputProcessor = inputProcessor;
-        spaceship = new Spaceship();
+        gameObjects.add(new Spaceship(inputProcessor));
     }
 
     @Override
@@ -34,18 +39,19 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        for (GameObject gameObject : gameObjects) {
+            gameObject.update();
+        }
+
         ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        Sprite spaceshipSprite = new Sprite(spaceship.getTexture());
-        spaceshipSprite.setPosition(spaceship.getX(), spaceship.getY());
-
         batch.begin();
-        spaceshipSprite.draw(batch);
+        for (GameObject gameObject : gameObjects) {
+            gameObject.getSprite().draw(batch);
+        }
         batch.end();
-
-        spaceship.Move(inputProcessor.getMovementInput());
     }
 
     @Override
