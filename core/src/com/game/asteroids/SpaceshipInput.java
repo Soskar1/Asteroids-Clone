@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class SpaceshipInput implements InputProcessor {
     private int movementInput;
-    private int rotationInput;
+    private float rotationInput;
     private final HashMap<Integer, InputAction> inputActions;
 
     public SpaceshipInput() {
@@ -20,7 +20,7 @@ public class SpaceshipInput implements InputProcessor {
     public int getMovementInput() {
         return movementInput;
     }
-    public int getRotationInput() {
+    public float getRotationInput() {
         return rotationInput;
     }
 
@@ -33,15 +33,13 @@ public class SpaceshipInput implements InputProcessor {
         if (keycode == Input.Keys.W) {
             ++movementInput;
         }
-
-        if (keycode == Input.Keys.A) {
-            ++rotationInput;
-        }
-
         if (keycode == Input.Keys.S) {
             --movementInput;
         }
 
+        if (keycode == Input.Keys.A) {
+            ++rotationInput;
+        }
         if (keycode == Input.Keys.D) {
             --rotationInput;
         }
@@ -58,9 +56,15 @@ public class SpaceshipInput implements InputProcessor {
         if (keycode == Input.Keys.W) {
             --movementInput;
         }
-
         if (keycode == Input.Keys.S) {
             ++movementInput;
+        }
+
+        if (keycode == Input.Keys.A) {
+            --rotationInput;
+        }
+        if (keycode == Input.Keys.D) {
+            ++rotationInput;
         }
 
         return true;

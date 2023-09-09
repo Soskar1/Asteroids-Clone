@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         for (GameObject gameObject : gameObjects) {
-            gameObject.update();
+            gameObject.update(delta);
         }
 
         ScreenUtils.clear(0, 0, 0, 1);

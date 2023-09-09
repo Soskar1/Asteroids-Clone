@@ -7,31 +7,17 @@ import com.badlogic.gdx.math.Vector2;
 import java.awt.*;
 
 public abstract class GameObject {
-    private Texture texture;
     private Sprite sprite;
     private Rectangle rectangle;
 
-    public abstract void update();
+    public abstract void update(float deltaTime);
 
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public void setTexture(Texture newTexture) {
-        texture = newTexture;
-        sprite = new Sprite(texture);
+    public void setSprite(Texture newTexture) {
+        sprite = new Sprite(newTexture);
     }
 
     public Sprite getSprite() {
         return sprite;
-    }
-
-    public void setSprite(Sprite newSprite) {
-        sprite = newSprite;
-    }
-
-    public Rectangle getRectangle() {
-        return rectangle;
     }
 
     public void setRectangle(Rectangle newRectangle) {
@@ -47,7 +33,15 @@ public abstract class GameObject {
         rectangle.y = (int)position.y;
 
         if (sprite != null) {
-            sprite.setPosition(rectangle.x, rectangle.y);
+            sprite.setPosition(position.x, position.y);
         }
+    }
+
+    public float getRotation() {
+        return sprite.getRotation();
+    }
+
+    public void setRotation(float rotation) {
+        sprite.setRotation(rotation);
     }
 }
