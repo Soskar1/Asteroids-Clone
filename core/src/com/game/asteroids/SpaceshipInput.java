@@ -6,11 +6,11 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
 
-public class GameScreenInputProcessor implements InputProcessor {
+public class SpaceshipInput implements InputProcessor {
     private final Vector2 movementInput;
     private final HashMap<Integer, InputAction> inputActions;
 
-    public GameScreenInputProcessor() {
+    public SpaceshipInput() {
         movementInput = new Vector2();
         inputActions = new HashMap<Integer, InputAction>();
     }

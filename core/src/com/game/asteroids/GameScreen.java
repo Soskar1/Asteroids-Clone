@@ -12,33 +12,19 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameScreen implements Screen {
     private final SpriteBatch batch;
     private final BitmapFont font;
-    private final GameScreenInputProcessor inputProcessor;
+    private final SpaceshipInput inputProcessor;
     private final Spaceship spaceship;
     private final OrthographicCamera camera;
 
-    public GameScreen(Asteroids game, final GameScreenInputProcessor inputProcessor) {
+    public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         batch = game.getSpriteBatch();
         font = game.getBitmapFont();
-
-        spaceship = new Spaceship();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
 
         this.inputProcessor = inputProcessor;
-        class MoveAction implements InputAction {
-
-            @Override
-            public void execute() {
-                spaceship.Move(inputProcessor.getMovementInput());
-            }
-        }
-
-        MoveAction moveAction = new MoveAction();
-        inputProcessor.RegisterInputAction(Input.Keys.W, moveAction);
-        inputProcessor.RegisterInputAction(Input.Keys.A, moveAction);
-        inputProcessor.RegisterInputAction(Input.Keys.S, moveAction);
-        inputProcessor.RegisterInputAction(Input.Keys.D, moveAction);
+        spaceship = new Spaceship();
     }
 
     @Override
@@ -54,13 +40,12 @@ public class GameScreen implements Screen {
 
         Sprite spaceshipSprite = new Sprite(spaceship.getTexture());
         spaceshipSprite.setPosition(spaceship.getX(), spaceship.getY());
-        //spaceshipSprite.setRotation();
 
         batch.begin();
         spaceshipSprite.draw(batch);
         batch.end();
 
-        //spaceship.Move(inputProcessor.getMovementInput());
+        spaceship.Move(inputProcessor.getMovementInput());
     }
 
     @Override

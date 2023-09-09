@@ -10,7 +10,6 @@ public class Spaceship {
     private final Texture texture;
     private final Rectangle rectangle;
     private final int speed;
-    public Boolean continuousMove;
 
     public Spaceship() {
         texture = new Texture(Gdx.files.internal("Spaceship.png"));
@@ -19,9 +18,8 @@ public class Spaceship {
     }
 
     public void Move(Vector2 direction) {
-        rectangle.x += direction.x * speed * Gdx.graphics.getDeltaTime();
-        rectangle.y += direction.y * speed * Gdx.graphics.getDeltaTime();
-        //Gdx.graphics.requestRendering();
+        rectangle.x += (int) (direction.x * speed * Gdx.graphics.getDeltaTime());
+        rectangle.y += (int) (direction.y * speed * Gdx.graphics.getDeltaTime());
     }
 
     public Texture getTexture() {
