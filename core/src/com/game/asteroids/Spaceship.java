@@ -1,6 +1,7 @@
 package com.game.asteroids;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,6 +11,7 @@ public class Spaceship extends GameObject {
     private final int moveSpeed;
     private final int rotationSpeed;
     private final SpaceshipInput spaceshipInput;
+    private final int bulletPositionOffset = 16;
 
     public Spaceship(SpaceshipInput input) {
         Texture texture = new Texture(Gdx.files.internal("Spaceship.png"));
@@ -19,6 +21,16 @@ public class Spaceship extends GameObject {
         spaceshipInput = input;
         moveSpeed = 200;
         rotationSpeed = 200;
+
+        class ShootAction implements InputAction {
+
+            @Override
+            public void execute() {
+                Shoot();
+            }
+        }
+
+        spaceshipInput.registerInputAction(Input.Keys.SPACE, new ShootAction());
     }
 
     @Override
@@ -54,6 +66,9 @@ public class Spaceship extends GameObject {
     }
 
     private void Shoot() {
-        //TODO: Shoot the Bullet
+        Bullet bullet = new Bullet(getRotatedMovement());
+        Vector2 spaceshipPosition = getPosition();
+        bullet.setPosition(new Vector2(spaceshipPosition.x + bulletPositionOffset, spaceshipPosition.y + bulletPositionOffset));
+        GameScreen.AddGameObject(bullet);
     }
 }

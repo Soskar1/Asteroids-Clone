@@ -23,7 +23,7 @@ public class SpaceshipInput implements InputProcessor {
         return rotationInput;
     }
 
-    public void RegisterInputAction(int keyCode, InputAction action) {
+    public void registerInputAction(int keyCode, InputAction action) {
         inputActions.put(keyCode, action);
     }
 
