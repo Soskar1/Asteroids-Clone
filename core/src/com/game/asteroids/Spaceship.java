@@ -52,4 +52,8 @@ public class Spaceship extends GameObject {
 
         return result.nor();
     }
+
+    private void Shoot() {
+        //TODO: Shoot the Bullet
+    }
 }

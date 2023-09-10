@@ -16,8 +16,8 @@ public class GameScreen implements Screen {
     private final SpriteBatch batch;
     private final BitmapFont font;
     private final SpaceshipInput inputProcessor;
-    private final OrthographicCamera camera;
-    private final ArrayList<GameObject> gameObjects;
+    private final OrthographicCamera camera = new OrthographicCamera();
+    private final static ArrayList<GameObject> gameObjects = new ArrayList<>();
     private final ShapeRenderer shapeRenderer;
     private final boolean showShapes = false;
 
@@ -25,10 +25,7 @@ public class GameScreen implements Screen {
         batch = game.getSpriteBatch();
         font = game.getBitmapFont();
 
-        camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
-
-        gameObjects = new ArrayList<>();
 
         this.inputProcessor = inputProcessor;
         gameObjects.add(new Spaceship(inputProcessor));
@@ -93,5 +90,9 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public static void AddGameObject(GameObject gameObject) {
+        gameObjects.add(gameObject);
     }
 }
