@@ -11,7 +11,6 @@ public class Spaceship extends GameObject {
     private final int moveSpeed;
     private final int rotationSpeed;
     private final SpaceshipInput spaceshipInput;
-    private final int bulletPositionOffset = 16;
 
     public Spaceship(SpaceshipInput input) {
         Texture texture = new Texture(Gdx.files.internal("Spaceship.png"));
@@ -26,7 +25,7 @@ public class Spaceship extends GameObject {
 
             @Override
             public void execute() {
-                Shoot();
+                shoot();
             }
         }
 
@@ -65,10 +64,10 @@ public class Spaceship extends GameObject {
         return result.nor();
     }
 
-    private void Shoot() {
+    private void shoot() {
         Bullet bullet = new Bullet(getRotatedMovement());
         Vector2 spaceshipPosition = getPosition();
-        bullet.setPosition(new Vector2(spaceshipPosition.x + bulletPositionOffset, spaceshipPosition.y + bulletPositionOffset));
-        GameScreen.AddGameObject(bullet);
+        bullet.setPosition(new Vector2(spaceshipPosition.x + getSprite().getWidth() / 2, spaceshipPosition.y + getSprite().getWidth() / 2));
+        GameScreen.addGameObject(bullet);
     }
 }

@@ -92,7 +92,7 @@ public class GameScreen implements Screen {
 
     }
 
-    public static void AddGameObject(GameObject gameObject) {
+    public static void addGameObject(GameObject gameObject) {
         gameObjects.add(gameObject);
     }
 }
