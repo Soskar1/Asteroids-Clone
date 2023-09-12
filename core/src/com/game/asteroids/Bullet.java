@@ -17,7 +17,7 @@ public class Bullet extends GameObject{
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
 
         this.movementDirection = movementDirection;
-        speed = 100;
+        speed = 750;
     }
 
     @Override

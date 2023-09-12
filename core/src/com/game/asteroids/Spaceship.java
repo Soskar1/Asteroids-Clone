@@ -39,11 +39,12 @@ public class Spaceship extends GameObject {
     }
 
     private void move(float deltaTime) {
-        Vector2 rotatedMovement = getRotatedMovement();
+        int movementInput = spaceshipInput.getMovementInput();
+        Vector2 movementDirection = rotateVector(new Vector2(0, movementInput));
         Vector2 currentPosition = getPosition();
 
-        currentPosition.x += rotatedMovement.x * moveSpeed * deltaTime;
-        currentPosition.y += rotatedMovement.y * moveSpeed * deltaTime;
+        currentPosition.x += movementDirection.x * moveSpeed * deltaTime;
+        currentPosition.y += movementDirection.y * moveSpeed * deltaTime;
 
         setPosition(currentPosition);
     }
@@ -54,20 +55,18 @@ public class Spaceship extends GameObject {
         setRotation(rotation + rotationInput * rotationSpeed * deltaTime);
     }
 
-    private Vector2 getRotatedMovement() {
-        int movementInput = spaceshipInput.getMovementInput();
-        float rotation = getRotation();
-
-        Vector2 result = new Vector2(0, movementInput);
-        result.rotateDeg(rotation);
-
-        return result.nor();
-    }
-
     private void shoot() {
-        Bullet bullet = new Bullet(getRotatedMovement());
+        Vector2 bulletMovementDirection = rotateVector(new Vector2(0,1));
+        Bullet bullet = new Bullet(bulletMovementDirection);
+
         Vector2 spaceshipPosition = getPosition();
         bullet.setPosition(new Vector2(spaceshipPosition.x + getSprite().getWidth() / 2, spaceshipPosition.y + getSprite().getWidth() / 2));
+
         GameScreen.addGameObject(bullet);
+    }
+
+    private Vector2 rotateVector(Vector2 source) {
+        float rotation = getRotation();
+        return source.rotateDeg(rotation).nor();
     }
 }

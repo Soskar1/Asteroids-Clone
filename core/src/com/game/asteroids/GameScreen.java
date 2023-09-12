@@ -47,7 +47,6 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        shapeRenderer.setProjectionMatrix(camera.combined);
 
         batch.begin();
         for (GameObject gameObject : gameObjects) {
@@ -58,6 +57,7 @@ public class GameScreen implements Screen {
         if (!showShapes)
             return;
 
+        shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.GREEN);
         for (GameObject gameObject : gameObjects) {
