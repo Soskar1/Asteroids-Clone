@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameScreen implements Screen {
     private final SpriteBatch BATCH;
@@ -21,8 +22,8 @@ public class GameScreen implements Screen {
     private final ShapeRenderer SHAPE_RENDERER;
     private final boolean SHOW_SHAPES = false;
 
-    private final static ObjectPool<Bullet> BULLET_OBJECT_POOL = new ObjectPool<>();
-    private final int INITIAL_POOL_CAPACITY = 10;
+//    private final static ObjectPool<Bullet> BULLET_OBJECT_POOL = new ObjectPool<>();
+//    private final int INITIAL_POOL_CAPACITY = 10;
 
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         BATCH = game.getSpriteBatch();
@@ -50,9 +51,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        for (GameObject gameObject : GAME_OBJECTS) {
-            gameObject.update(delta);
-        }
+        updateGameObjects(delta);
 
         ScreenUtils.clear(0, 0, 0, 1);
         CAMERA.update();
@@ -60,9 +59,7 @@ public class GameScreen implements Screen {
 
         BATCH.begin();
         for (GameObject gameObject : GAME_OBJECTS) {
-            if (gameObject.isActive()) {
-                gameObject.getSprite().draw(BATCH);
-            }
+            gameObject.getSprite().draw(BATCH);
         }
         BATCH.end();
 
@@ -74,10 +71,23 @@ public class GameScreen implements Screen {
         SHAPE_RENDERER.begin(ShapeRenderer.ShapeType.Line);
         SHAPE_RENDERER.setColor(Color.GREEN);
         for (GameObject gameObject : GAME_OBJECTS) {
-            Rectangle spaceshipRect = gameObject.getRectangle();
-            SHAPE_RENDERER.rect(spaceshipRect.x, spaceshipRect.y, spaceshipRect.width, spaceshipRect.height);
+            Rectangle rectangle = gameObject.getRectangle();
+            SHAPE_RENDERER.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
         }
         SHAPE_RENDERER.end();
+    }
+
+    private void updateGameObjects(float delta) {
+        Iterator<GameObject> iterator = GAME_OBJECTS.iterator();
+        while (iterator.hasNext()) {
+            GameObject gameObject = iterator.next();
+
+            if (gameObject.isActive()) {
+                gameObject.update(delta);
+            } else {
+                iterator.remove();
+            }
+        }
     }
 
     @Override
@@ -107,10 +117,5 @@ public class GameScreen implements Screen {
 
     public static void addGameObject(GameObject gameObject) {
         GAME_OBJECTS.add(gameObject);
-    }
-
-    public static void removeGameObject(GameObject gameObject) {
-        gameObject.setActive(false);
-        //gameObjects.remove(gameObject);
     }
 }

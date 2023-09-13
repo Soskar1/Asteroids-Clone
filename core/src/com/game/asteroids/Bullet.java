@@ -21,10 +21,6 @@ public class Bullet extends GameObject {
 
     @Override
     public void update(float deltaTime) {
-        if (!isActive()) {
-            return;
-        }
-
         Vector2 currentPosition = getPosition();
         currentPosition.x += movementDirection.x * SPEED * deltaTime;
         currentPosition.y += movementDirection.y * SPEED * deltaTime;
@@ -32,7 +28,7 @@ public class Bullet extends GameObject {
 
         if (currentPosition.x > Gdx.graphics.getWidth() || currentPosition.x < 0 ||
             currentPosition.y > Gdx.graphics.getHeight() || currentPosition.y < 0) {
-            GameScreen.removeGameObject(this);
+            setActive(false);
         }
     }
 
