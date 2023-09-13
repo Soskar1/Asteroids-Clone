@@ -9,8 +9,17 @@ import java.awt.*;
 public abstract class GameObject {
     private Sprite sprite;
     private Rectangle rectangle;
+    private boolean isActive = true;
 
     public abstract void update(float deltaTime);
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean state) {
+        isActive = state;
+    }
 
     public void setSprite(Texture newTexture) {
         sprite = new Sprite(newTexture);
@@ -18,6 +27,10 @@ public abstract class GameObject {
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 
     public void setRectangle(Rectangle newRectangle) {

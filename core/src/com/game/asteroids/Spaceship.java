@@ -1,25 +1,33 @@
 package com.game.asteroids;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import java.awt.*;
 
 public class Spaceship extends GameObject {
-    private final int moveSpeed;
-    private final int rotationSpeed;
-    private final SpaceshipInput spaceshipInput;
+    private final int MOVE_SPEED = 200;
+    private final int ROTATION_SPEED = 200;
+    private final SpaceshipInput SPACESHIP_INPUT;
 
     public Spaceship(SpaceshipInput input) {
         Texture texture = new Texture(Gdx.files.internal("Spaceship.png"));
         setSprite(texture);
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
-        moveSpeed = 200;
-        rotationSpeed = 100;
 
-        spaceshipInput = input;
+        SPACESHIP_INPUT = input;
+
+        class ShootAction implements InputAction {
+
+            @Override
+            public void execute() {
+                shoot();
+            }
+        }
+
+        SPACESHIP_INPUT.registerInputAction(Input.Keys.SPACE, new ShootAction());
     }
 
     @Override
@@ -29,31 +37,34 @@ public class Spaceship extends GameObject {
     }
 
     private void move(float deltaTime) {
-        Vector2 rotatedMovement = getRotatedMovement();
+        int movementInput = SPACESHIP_INPUT.getMovementInput();
+        Vector2 movementDirection = rotateVector(new Vector2(0, movementInput));
         Vector2 currentPosition = getPosition();
 
-        currentPosition.x += rotatedMovement.x * moveSpeed * deltaTime;
-        currentPosition.y += rotatedMovement.y * moveSpeed * deltaTime;
+        currentPosition.x += movementDirection.x * MOVE_SPEED * deltaTime;
+        currentPosition.y += movementDirection.y * MOVE_SPEED * deltaTime;
 
         setPosition(currentPosition);
     }
 
     private void rotate(float deltaTime) {
-        float rotationInput = spaceshipInput.getRotationInput();
+        float rotationInput = SPACESHIP_INPUT.getRotationInput();
         float rotation = getRotation();
-        setRotation(rotation + rotationInput * rotationSpeed * deltaTime);
+        setRotation(rotation + rotationInput * ROTATION_SPEED * deltaTime);
     }
 
-    private Vector2 getRotatedMovement() {
-        int movementInput = spaceshipInput.getMovementInput();
+    private void shoot() {
+        Vector2 bulletMovementDirection = rotateVector(new Vector2(0,1));
+        Bullet bullet = new Bullet();
+
+        Vector2 spaceshipPosition = getPosition();
+        bullet.setPosition(new Vector2(spaceshipPosition.x + getSprite().getWidth() / 2, spaceshipPosition.y + getSprite().getWidth() / 2));
+
+        GameScreen.addGameObject(bullet);
+    }
+
+    private Vector2 rotateVector(Vector2 source) {
         float rotation = getRotation();
-
-        Vector2 result = new Vector2(0, movementInput);
-        result.rotateDeg(rotation);
-
-//        result.x = -movementInput * MathUtils.sinDeg(rotation % 360);
-//        result.y = movementInput * MathUtils.cosDeg(rotation % 360);
-
-        return result;
+        return source.rotateDeg(rotation).nor();
     }
 }
