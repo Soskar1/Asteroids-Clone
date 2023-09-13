@@ -56,6 +56,7 @@ public class Spaceship extends GameObject {
     private void shoot() {
         Vector2 bulletMovementDirection = rotateVector(new Vector2(0,1));
         Bullet bullet = new Bullet();
+        bullet.setMovementDirection(bulletMovementDirection);
 
         Vector2 spaceshipPosition = getPosition();
         bullet.setPosition(new Vector2(spaceshipPosition.x + getSprite().getWidth() / 2, spaceshipPosition.y + getSprite().getWidth() / 2));
