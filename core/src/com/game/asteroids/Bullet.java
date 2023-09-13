@@ -6,25 +6,37 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.awt.*;
 
-public class Bullet extends GameObject{
+public class Bullet extends GameObject {
+    private Vector2 movementDirection;
+    private final float SPEED;
 
-    private final Vector2 movementDirection;
-    private final float speed;
-
-    public Bullet(Vector2 movementDirection) {
+    public Bullet() {
         Texture texture = new Texture(Gdx.files.internal("Bullet.png"));
         setSprite(texture);
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
 
-        this.movementDirection = movementDirection;
-        speed = 750;
+        movementDirection = Vector2.Zero;
+        SPEED = 750;
     }
 
     @Override
     public void update(float deltaTime) {
+        if (!isActive()) {
+            return;
+        }
+
         Vector2 currentPosition = getPosition();
-        currentPosition.x += movementDirection.x * speed * deltaTime;
-        currentPosition.y += movementDirection.y * speed * deltaTime;
+        currentPosition.x += movementDirection.x * SPEED * deltaTime;
+        currentPosition.y += movementDirection.y * SPEED * deltaTime;
         setPosition(currentPosition);
+
+        if (currentPosition.x > Gdx.graphics.getWidth() || currentPosition.x < 0 ||
+            currentPosition.y > Gdx.graphics.getHeight() || currentPosition.y < 0) {
+            GameScreen.removeGameObject(this);
+        }
+    }
+
+    public void setMovementDirection(Vector2 movementDirection) {
+        this.movementDirection = movementDirection;
     }
 }
