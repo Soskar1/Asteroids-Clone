@@ -40,12 +40,12 @@ public class GameScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(INPUT_PROCESSOR);
 
-        for (int i = 0; i < INITIAL_POOL_CAPACITY; ++i) {
-            Bullet bulletInstance = new Bullet();
-            bulletInstance.setActive(false);
-            BULLET_OBJECT_POOL.enqueue(bulletInstance);
-            GAME_OBJECTS.add
-        }
+//        for (int i = 0; i < INITIAL_POOL_CAPACITY; ++i) {
+//            Bullet bulletInstance = new Bullet();
+//            bulletInstance.setActive(false);
+//            BULLET_OBJECT_POOL.enqueue(bulletInstance);
+//            GAME_OBJECTS.add
+//        }
     }
 
     @Override

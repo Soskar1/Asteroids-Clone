@@ -4,17 +4,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputProcessor;
 
 public class MainMenuInputProcessor implements InputProcessor {
-    private final GameScreen gameScreen;
-    private final Game game;
+    private final GameScreen GAME_SCREEN;
+    private final Game GAME;
 
     public MainMenuInputProcessor(Game game, GameScreen gameScreen) {
-        this.game = game;
-        this.gameScreen = gameScreen;
+        this.GAME = game;
+        this.GAME_SCREEN = gameScreen;
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        game.setScreen(gameScreen);
+        GAME.setScreen(GAME_SCREEN);
         return true;
     }
 

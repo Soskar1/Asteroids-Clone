@@ -8,18 +8,16 @@ import com.badlogic.gdx.math.Vector2;
 import java.awt.*;
 
 public class Spaceship extends GameObject {
-    private final int moveSpeed;
-    private final int rotationSpeed;
-    private final SpaceshipInput spaceshipInput;
+    private final int MOVE_SPEED = 200;
+    private final int ROTATION_SPEED = 200;
+    private final SpaceshipInput SPACESHIP_INPUT;
 
     public Spaceship(SpaceshipInput input) {
         Texture texture = new Texture(Gdx.files.internal("Spaceship.png"));
         setSprite(texture);
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
 
-        spaceshipInput = input;
-        moveSpeed = 200;
-        rotationSpeed = 200;
+        SPACESHIP_INPUT = input;
 
         class ShootAction implements InputAction {
 
@@ -29,7 +27,7 @@ public class Spaceship extends GameObject {
             }
         }
 
-        spaceshipInput.registerInputAction(Input.Keys.SPACE, new ShootAction());
+        SPACESHIP_INPUT.registerInputAction(Input.Keys.SPACE, new ShootAction());
     }
 
     @Override
@@ -39,20 +37,20 @@ public class Spaceship extends GameObject {
     }
 
     private void move(float deltaTime) {
-        int movementInput = spaceshipInput.getMovementInput();
+        int movementInput = SPACESHIP_INPUT.getMovementInput();
         Vector2 movementDirection = rotateVector(new Vector2(0, movementInput));
         Vector2 currentPosition = getPosition();
 
-        currentPosition.x += movementDirection.x * moveSpeed * deltaTime;
-        currentPosition.y += movementDirection.y * moveSpeed * deltaTime;
+        currentPosition.x += movementDirection.x * MOVE_SPEED * deltaTime;
+        currentPosition.y += movementDirection.y * MOVE_SPEED * deltaTime;
 
         setPosition(currentPosition);
     }
 
     private void rotate(float deltaTime) {
-        float rotationInput = spaceshipInput.getRotationInput();
+        float rotationInput = SPACESHIP_INPUT.getRotationInput();
         float rotation = getRotation();
-        setRotation(rotation + rotationInput * rotationSpeed * deltaTime);
+        setRotation(rotation + rotationInput * ROTATION_SPEED * deltaTime);
     }
 
     private void shoot() {

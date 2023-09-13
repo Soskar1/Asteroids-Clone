@@ -6,45 +6,45 @@ import com.badlogic.gdx.InputProcessor;
 import java.util.HashMap;
 
 public class SpaceshipInput implements InputProcessor {
-    private int movementInput;
-    private float rotationInput;
-    private final HashMap<Integer, InputAction> inputActions;
+    private int MOVEMENT_INPUT;
+    private float ROTATION_INPUT;
+    private final HashMap<Integer, InputAction> INPUT_ACTIONS;
 
     public SpaceshipInput() {
-        movementInput = 0;
-        rotationInput = 0;
-        inputActions = new HashMap<>();
+        MOVEMENT_INPUT = 0;
+        ROTATION_INPUT = 0;
+        INPUT_ACTIONS = new HashMap<>();
     }
 
     public int getMovementInput() {
-        return movementInput;
+        return MOVEMENT_INPUT;
     }
     public float getRotationInput() {
-        return rotationInput;
+        return ROTATION_INPUT;
     }
 
     public void registerInputAction(int keyCode, InputAction action) {
-        inputActions.put(keyCode, action);
+        INPUT_ACTIONS.put(keyCode, action);
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.W) {
-            ++movementInput;
+            ++MOVEMENT_INPUT;
         }
         if (keycode == Input.Keys.S) {
-            --movementInput;
+            --MOVEMENT_INPUT;
         }
 
         if (keycode == Input.Keys.A) {
-            ++rotationInput;
+            ++ROTATION_INPUT;
         }
         if (keycode == Input.Keys.D) {
-            --rotationInput;
+            --ROTATION_INPUT;
         }
 
-        if (inputActions.containsKey(keycode)) {
-            inputActions.get(keycode).execute();
+        if (INPUT_ACTIONS.containsKey(keycode)) {
+            INPUT_ACTIONS.get(keycode).execute();
         }
 
         return true;
@@ -53,17 +53,17 @@ public class SpaceshipInput implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.W) {
-            --movementInput;
+            --MOVEMENT_INPUT;
         }
         if (keycode == Input.Keys.S) {
-            ++movementInput;
+            ++MOVEMENT_INPUT;
         }
 
         if (keycode == Input.Keys.A) {
-            --rotationInput;
+            --ROTATION_INPUT;
         }
         if (keycode == Input.Keys.D) {
-            ++rotationInput;
+            ++ROTATION_INPUT;
         }
 
         return true;

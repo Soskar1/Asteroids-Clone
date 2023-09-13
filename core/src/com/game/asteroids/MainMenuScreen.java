@@ -8,33 +8,33 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenuScreen implements Screen {
-    private final BitmapFont font;
-    private final SpriteBatch batch;
-    private final MainMenuInputProcessor mainMenuInputProcessor;
-    private final OrthographicCamera camera;
+    private final BitmapFont FONT;
+    private final SpriteBatch BATCH;
+    private final MainMenuInputProcessor MAIN_MENU_INPUT;
+    private final OrthographicCamera CAMERA;
 
     public MainMenuScreen(Asteroids game, MainMenuInputProcessor inputProcessor) {
-        font = game.getBitmapFont();
-        batch = game.getSpriteBatch();
-        mainMenuInputProcessor = inputProcessor;
+        FONT = game.getBitmapFont();
+        BATCH = game.getSpriteBatch();
+        MAIN_MENU_INPUT = inputProcessor;
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1280, 720);
+        CAMERA = new OrthographicCamera();
+        CAMERA.setToOrtho(false, 1280, 720);
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(mainMenuInputProcessor);
+        Gdx.input.setInputProcessor(MAIN_MENU_INPUT);
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
 
-        batch.begin();
-        font.draw(batch, "Asteroids", 560, 500);
-        font.draw(batch, "Press any key to start", 520, 360);
-        batch.end();
+        BATCH.begin();
+        FONT.draw(BATCH, "Asteroids", 560, 500);
+        FONT.draw(BATCH, "Press any key to start", 520, 360);
+        BATCH.end();
     }
 
     @Override
