@@ -11,13 +11,15 @@ public class Spaceship extends GameObject {
     private final int MOVE_SPEED = 200;
     private final int ROTATION_SPEED = 200;
     private final SpaceshipInput SPACESHIP_INPUT;
+    private final BulletObjectPool BULLET_OBJECT_POOL;
 
-    public Spaceship(SpaceshipInput input) {
+    public Spaceship(SpaceshipInput input, BulletObjectPool bulletObjectPool) {
         Texture texture = new Texture(Gdx.files.internal("Spaceship.png"));
         setSprite(texture);
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
 
         SPACESHIP_INPUT = input;
+        BULLET_OBJECT_POOL = bulletObjectPool;
 
         class ShootAction implements InputAction {
 
@@ -55,7 +57,7 @@ public class Spaceship extends GameObject {
 
     private void shoot() {
         Vector2 bulletMovementDirection = rotateVector(new Vector2(0,1));
-        Bullet bullet = new Bullet();
+        Bullet bullet = BULLET_OBJECT_POOL.dequeue();
         bullet.setMovementDirection(bulletMovementDirection);
 
         Vector2 spaceshipPosition = getPosition();

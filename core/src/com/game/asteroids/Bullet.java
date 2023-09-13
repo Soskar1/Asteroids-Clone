@@ -8,15 +8,16 @@ import java.awt.*;
 
 public class Bullet extends GameObject {
     private Vector2 movementDirection;
-    private final float SPEED;
+    private final float SPEED = 750;
+    private final BulletObjectPool BULLET_OBJECT_POOL;
 
-    public Bullet() {
+    public Bullet(BulletObjectPool objectPool) {
         Texture texture = new Texture(Gdx.files.internal("Bullet.png"));
         setSprite(texture);
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
 
         movementDirection = Vector2.Zero;
-        SPEED = 750;
+        BULLET_OBJECT_POOL = objectPool;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Bullet extends GameObject {
 
         if (currentPosition.x > Gdx.graphics.getWidth() || currentPosition.x < 0 ||
             currentPosition.y > Gdx.graphics.getHeight() || currentPosition.y < 0) {
-            setActive(false);
+            BULLET_OBJECT_POOL.enqueue(this);
         }
     }
 
