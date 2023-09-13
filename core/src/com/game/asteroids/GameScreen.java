@@ -21,9 +21,7 @@ public class GameScreen implements Screen {
     private final static ArrayList<GameObject> GAME_OBJECTS = new ArrayList<>();
     private final ShapeRenderer SHAPE_RENDERER;
     private final boolean SHOW_SHAPES = false;
-
-//    private final static ObjectPool<Bullet> BULLET_OBJECT_POOL = new ObjectPool<>();
-//    private final int INITIAL_POOL_CAPACITY = 10;
+    private final int BULLET_POOL_INITIAL_SIZE = 10;
 
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         BATCH = game.getSpriteBatch();
@@ -32,7 +30,7 @@ public class GameScreen implements Screen {
         CAMERA.setToOrtho(false, 1280, 720);
 
         this.INPUT_PROCESSOR = inputProcessor;
-        GAME_OBJECTS.add(new Spaceship(inputProcessor));
+        GAME_OBJECTS.add(new Spaceship(inputProcessor, new BulletObjectPool(BULLET_POOL_INITIAL_SIZE)));
 
         SHAPE_RENDERER = new ShapeRenderer();
     }
@@ -40,13 +38,6 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(INPUT_PROCESSOR);
-
-//        for (int i = 0; i < INITIAL_POOL_CAPACITY; ++i) {
-//            Bullet bulletInstance = new Bullet();
-//            bulletInstance.setActive(false);
-//            BULLET_OBJECT_POOL.enqueue(bulletInstance);
-//            GAME_OBJECTS.add
-//        }
     }
 
     @Override
