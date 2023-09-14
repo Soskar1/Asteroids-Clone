@@ -11,32 +11,31 @@ public class Asteroid extends GameObject {
     private Vector2 movementDirection;
     private final int SPEED = 250;
     private final int ROTATION_SPEED = 250;
-    private final int OUT_OF_BOUNDS_OFFSET = 50;
+    private final AsteroidObjectPool OBJECT_POOL;
 
-    public Asteroid() {
+    public Asteroid(AsteroidObjectPool objectPool) {
         Texture texture = new Texture(Gdx.files.internal("Asteroid.png"));
         setSprite(texture);
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
+
+        OBJECT_POOL = objectPool;
     }
 
     @Override
     public void update(float deltaTime) {
-        Vector2 newPosition = move(deltaTime);
+        move(deltaTime);
         rotate(deltaTime);
 
-        if (newPosition.x > Gdx.graphics.getWidth() + OUT_OF_BOUNDS_OFFSET || newPosition.x < -OUT_OF_BOUNDS_OFFSET ||
-                newPosition.y > Gdx.graphics.getHeight() + OUT_OF_BOUNDS_OFFSET || newPosition.y < -OUT_OF_BOUNDS_OFFSET) {
-            setActive(false);
+        if (OutOfBounds.isInOutOfBounds(getPosition())) {
+            OBJECT_POOL.enqueue(this);
         }
     }
 
-    private Vector2 move(float deltaTime) {
-        Vector2 currentPosition = getPosition();
-        currentPosition.x += movementDirection.x * SPEED * deltaTime;
-        currentPosition.y += movementDirection.y * SPEED * deltaTime;
-        setPosition(currentPosition);
-
-        return getPosition();
+    private void move(float deltaTime) {
+        Vector2 position = getPosition();
+        position.x += movementDirection.x * SPEED * deltaTime;
+        position.y += movementDirection.y * SPEED * deltaTime;
+        setPosition(position);
     }
 
     private void rotate(float deltaTime) {

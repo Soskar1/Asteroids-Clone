@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +24,9 @@ public class GameScreen implements Screen {
     private final ShapeRenderer SHAPE_RENDERER;
     private final boolean SHOW_SHAPES = false;
     private final int BULLET_POOL_INITIAL_SIZE = 10;
+    private final int ASTEROID_POOL_INITIAL_SIZE = 10;
+    private final AsteroidObjectPool ASTEROID_OBJECT_POOL = new AsteroidObjectPool(ASTEROID_POOL_INITIAL_SIZE);
+    private final BulletObjectPool BULLET_OBJECT_POOL = new BulletObjectPool(BULLET_POOL_INITIAL_SIZE);
 
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         BATCH = game.getSpriteBatch();
@@ -31,7 +35,9 @@ public class GameScreen implements Screen {
         CAMERA.setToOrtho(false, 1280, 720);
 
         this.INPUT_PROCESSOR = inputProcessor;
-        GAME_OBJECTS.add(new Spaceship(inputProcessor, new BulletObjectPool(BULLET_POOL_INITIAL_SIZE)));
+        Spaceship spaceship = new Spaceship(inputProcessor, BULLET_OBJECT_POOL);
+        GAME_OBJECTS.add(spaceship);
+        GAME_OBJECTS.add(new AsteroidSpawner(ASTEROID_OBJECT_POOL, spaceship));
 
         SHAPE_RENDERER = new ShapeRenderer();
     }
@@ -43,6 +49,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+//        System.out.println("BulletObjectPool count: " + BULLET_OBJECT_POOL.size());
+//        System.out.println("AsteroidObjectPool count: " + ASTEROID_OBJECT_POOL.size());
+//        System.out.println("GameObjects count: " + GAME_OBJECTS.size());
         updateGameObjects(delta);
 
         ScreenUtils.clear(0, 0, 0, 1);
@@ -51,7 +60,10 @@ public class GameScreen implements Screen {
 
         BATCH.begin();
         for (GameObject gameObject : GAME_OBJECTS) {
-            gameObject.getSprite().draw(BATCH);
+            Sprite sprite = gameObject.getSprite();
+            if (sprite != null) {
+                sprite.draw(BATCH);
+            }
         }
         BATCH.end();
 

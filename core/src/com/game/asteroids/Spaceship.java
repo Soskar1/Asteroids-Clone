@@ -41,12 +41,12 @@ public class Spaceship extends GameObject {
     private void move(float deltaTime) {
         int movementInput = SPACESHIP_INPUT.getMovementInput();
         Vector2 movementDirection = rotateVector(new Vector2(0, movementInput));
-        Vector2 currentPosition = getPosition();
+        Vector2 position = getPosition();
 
-        currentPosition.x += movementDirection.x * MOVE_SPEED * deltaTime;
-        currentPosition.y += movementDirection.y * MOVE_SPEED * deltaTime;
+        position.x += movementDirection.x * MOVE_SPEED * deltaTime;
+        position.y += movementDirection.y * MOVE_SPEED * deltaTime;
 
-        setPosition(currentPosition);
+        setPosition(position);
     }
 
     private void rotate(float deltaTime) {
@@ -56,8 +56,9 @@ public class Spaceship extends GameObject {
     }
 
     private void shoot() {
-        Vector2 bulletMovementDirection = rotateVector(new Vector2(0,1));
         Bullet bullet = BULLET_OBJECT_POOL.dequeue();
+
+        Vector2 bulletMovementDirection = rotateVector(new Vector2(0,1));
         bullet.setMovementDirection(bulletMovementDirection);
 
         Vector2 spaceshipPosition = getPosition();
