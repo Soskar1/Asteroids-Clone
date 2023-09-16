@@ -51,11 +51,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        System.out.println("GameObject count: " + GAME_OBJECTS.size());
-//        System.out.println("BulletPool count: " + BULLET_OBJECT_POOL.size());
-
         for (GameObject gameObject : GAME_OBJECTS) {
-            gameObject.update(delta);
+            if (gameObject.isActive()) {
+                gameObject.update(delta);
+            }
         }
 
         ScreenUtils.clear(0, 0, 0, 1);

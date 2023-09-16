@@ -10,7 +10,7 @@ public class AsteroidSpawner extends GameObject {
     private final AsteroidObjectPool OBJECT_POOL;
     private final Spaceship SPACESHIP;
     private final Random random = new Random();
-    private final float MAX_SPAWN_TIME = 3;
+    private final float MAX_SPAWN_TIME = 1;
     private float timer;
 
     public AsteroidSpawner(AsteroidObjectPool objectPool, Spaceship spaceship) {
