@@ -12,7 +12,7 @@ import com.game.asteroids.objectpool.BulletObjectPool;
 import java.awt.*;
 
 public class Spaceship extends GameObject {
-    private final int MOVE_SPEED = 200;
+    private final int MOVE_SPEED = 250;
     private final int ROTATION_SPEED = 200;
     private final SpaceshipInput SPACESHIP_INPUT;
     private final BulletObjectPool BULLET_OBJECT_POOL;
@@ -40,6 +40,7 @@ public class Spaceship extends GameObject {
     public void update(float deltaTime) {
         rotate(deltaTime);
         move(deltaTime);
+        validateOutOfBounds();
     }
 
     private void move(float deltaTime) {
@@ -57,6 +58,22 @@ public class Spaceship extends GameObject {
         float rotationInput = SPACESHIP_INPUT.getRotationInput();
         float rotation = getRotation();
         setRotation(rotation + rotationInput * ROTATION_SPEED * deltaTime);
+    }
+
+    private void validateOutOfBounds() {
+        Vector2 position = getPosition();
+        if (position.x < -(float) OutOfBounds.OUT_OF_BOUNDS_OFFSET / 2) {
+            position.x = Gdx.graphics.getWidth();
+        } else if (position.x > Gdx.graphics.getWidth() + (float) OutOfBounds.OUT_OF_BOUNDS_OFFSET / 2) {
+            position.x = 0;
+        }
+
+        if (position.y < -(float) OutOfBounds.OUT_OF_BOUNDS_OFFSET / 2) {
+            position.y = Gdx.graphics.getHeight();
+        } else if (position.y > Gdx.graphics.getHeight() + (float) OutOfBounds.OUT_OF_BOUNDS_OFFSET / 2) {
+            position.y = 0;
+        }
+        setPosition(position);
     }
 
     private void shoot() {
