@@ -39,7 +39,10 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(INPUT_PROCESSOR);
+        initialize();
+    }
 
+    private void initialize() {
         Spaceship spaceship = new Spaceship(INPUT_PROCESSOR, new BulletObjectPool(BULLET_POOL_INITIAL_SIZE));
         spaceship.setPosition(new Vector2((float) Gdx.graphics.getWidth() / 2 - 16, (float) Gdx.graphics.getHeight() / 2 - 16));
         GAME_OBJECTS.add(spaceship);
@@ -55,7 +58,13 @@ public class GameScreen implements Screen {
         if (gameOver) {
             BATCH.begin();
             FONT.draw(BATCH, "GAME OVER", 565, 360);
+            FONT.draw(BATCH, "Press SPACE to restart", 540, 340);
             BATCH.end();
+
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                restartGame();
+            }
+
             return;
         }
 
@@ -142,5 +151,13 @@ public class GameScreen implements Screen {
 
     public static void endGame() {
         gameOver = true;
+    }
+
+    private void restartGame() {
+        GAME_OBJECTS.clear();
+        GAME_OBJECT_UPDATE_REQUESTS.clear();
+
+        initialize();
+        gameOver = false;
     }
 }
