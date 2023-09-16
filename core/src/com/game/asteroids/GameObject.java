@@ -14,6 +14,8 @@ public abstract class GameObject {
 
     public abstract void update(float deltaTime);
 
+    public void disable() { }
+
     public boolean isActive() {
         return isActive;
     }
@@ -58,4 +60,6 @@ public abstract class GameObject {
     public void setRotation(float rotation) {
         sprite.setRotation(rotation);
     }
+
+    public abstract void onCollisionEnter(GameObject gameObject);
 }

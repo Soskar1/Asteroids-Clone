@@ -43,6 +43,12 @@ public class Spaceship extends GameObject {
         validateOutOfBounds();
     }
 
+    @Override
+    public void onCollisionEnter(GameObject gameObject) {
+        if (gameObject instanceof Asteroid) {
+        }
+    }
+
     private void move(float deltaTime) {
         int movementInput = SPACESHIP_INPUT.getMovementInput();
         Vector2 movementDirection = rotateVector(new Vector2(0, movementInput));
