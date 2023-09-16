@@ -3,6 +3,8 @@ package com.game.asteroids;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.game.asteroids.flow.GameScreen;
+import com.game.asteroids.objectpool.BulletObjectPool;
 
 import java.awt.*;
 
@@ -25,6 +27,7 @@ public class Bullet extends GameObject {
         move(deltaTime);
 
         if (OutOfBounds.isInOutOfBounds(getPosition())) {
+            GameScreen.requestGameObjectUpdate(this, GameObjectOperation.REMOVE);
             BULLET_OBJECT_POOL.enqueue(this);
         }
     }

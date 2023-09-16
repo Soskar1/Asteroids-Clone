@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.game.asteroids.flow.GameScreen;
+import com.game.asteroids.input.InputAction;
+import com.game.asteroids.input.SpaceshipInput;
+import com.game.asteroids.objectpool.BulletObjectPool;
 
 import java.awt.*;
 
@@ -64,7 +68,7 @@ public class Spaceship extends GameObject {
         Vector2 spaceshipPosition = getPosition();
         bullet.setPosition(new Vector2(spaceshipPosition.x + getSprite().getWidth() / 2, spaceshipPosition.y + getSprite().getWidth() / 2));
 
-        GameScreen.addGameObject(bullet);
+        GameScreen.requestGameObjectUpdate(bullet, GameObjectOperation.ADD);
     }
 
     private Vector2 rotateVector(Vector2 source) {

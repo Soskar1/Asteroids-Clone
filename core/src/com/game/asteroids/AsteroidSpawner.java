@@ -1,7 +1,8 @@
 package com.game.asteroids;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.game.asteroids.flow.GameScreen;
+import com.game.asteroids.objectpool.AsteroidObjectPool;
 
 import java.util.Random;
 
@@ -28,7 +29,7 @@ public class AsteroidSpawner extends GameObject {
             Vector2 movementDirection = getDirectionToSpaceship(spawnPosition);
             asteroid.setMovementDirection(movementDirection);
 
-            GameScreen.addGameObject(asteroid);
+            GameScreen.requestGameObjectUpdate(asteroid, GameObjectOperation.ADD);
 
             timer = MAX_SPAWN_TIME;
         } else {

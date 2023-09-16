@@ -1,4 +1,6 @@
-package com.game.asteroids;
+package com.game.asteroids.objectpool;
+
+import com.game.asteroids.Bullet;
 
 public class BulletObjectPool extends ObjectPool<Bullet> {
     public BulletObjectPool(int initialSize) {

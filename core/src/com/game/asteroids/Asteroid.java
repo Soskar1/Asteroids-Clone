@@ -4,12 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.game.asteroids.objectpool.AsteroidObjectPool;
 
 import java.awt.*;
 
 public class Asteroid extends GameObject {
     private Vector2 movementDirection;
-    private final int SPEED = 250;
+    private final int SPEED = 100;
     private final int ROTATION_SPEED = 250;
     private final AsteroidObjectPool OBJECT_POOL;
 

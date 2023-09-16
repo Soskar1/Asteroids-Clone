@@ -1,15 +1,18 @@
-package com.game.asteroids;
+package com.game.asteroids.flow;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.game.asteroids.*;
+import com.game.asteroids.input.SpaceshipInput;
+import com.game.asteroids.objectpool.AsteroidObjectPool;
+import com.game.asteroids.objectpool.BulletObjectPool;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,10 +20,10 @@ import java.util.Iterator;
 
 public class GameScreen implements Screen {
     private final SpriteBatch BATCH;
-    private final BitmapFont FONT;
     private final SpaceshipInput INPUT_PROCESSOR;
     private final OrthographicCamera CAMERA = new OrthographicCamera();
-    private final static ArrayList<GameObject> GAME_OBJECTS = new ArrayList<>();
+    private final ArrayList<GameObject> GAME_OBJECTS = new ArrayList<>();
+    private final static Queue<GameObjectUpdateRequest> GAME_OBJECT_UPDATE_REQUESTS = new Queue<>();
     private final ShapeRenderer SHAPE_RENDERER;
     private final boolean SHOW_SHAPES = false;
     private final int BULLET_POOL_INITIAL_SIZE = 10;
@@ -30,7 +33,6 @@ public class GameScreen implements Screen {
 
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         BATCH = game.getSpriteBatch();
-        FONT = game.getBitmapFont();
 
         CAMERA.setToOrtho(false, 1280, 720);
 
@@ -49,10 +51,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        System.out.println("BulletObjectPool count: " + BULLET_OBJECT_POOL.size());
-//        System.out.println("AsteroidObjectPool count: " + ASTEROID_OBJECT_POOL.size());
-//        System.out.println("GameObjects count: " + GAME_OBJECTS.size());
-        updateGameObjects(delta);
+//        System.out.println("GameObject count: " + GAME_OBJECTS.size());
+//        System.out.println("BulletPool count: " + BULLET_OBJECT_POOL.size());
+
+        for (GameObject gameObject : GAME_OBJECTS) {
+            gameObject.update(delta);
+        }
 
         ScreenUtils.clear(0, 0, 0, 1);
         CAMERA.update();
@@ -67,6 +71,15 @@ public class GameScreen implements Screen {
         }
         BATCH.end();
 
+        while (!GAME_OBJECT_UPDATE_REQUESTS.isEmpty()) {
+            GameObjectUpdateRequest request = GAME_OBJECT_UPDATE_REQUESTS.removeFirst();
+            if (request.OPERATION == GameObjectOperation.ADD) {
+                GAME_OBJECTS.add(request.GAME_OBJECT);
+            } else {
+                GAME_OBJECTS.remove(request.GAME_OBJECT);
+            }
+        }
+
         if (!SHOW_SHAPES) {
             return;
         }
@@ -79,19 +92,6 @@ public class GameScreen implements Screen {
             SHAPE_RENDERER.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
         }
         SHAPE_RENDERER.end();
-    }
-
-    private void updateGameObjects(float delta) {
-        Iterator<GameObject> iterator = GAME_OBJECTS.iterator();
-        while (iterator.hasNext()) {
-            GameObject gameObject = iterator.next();
-
-            if (gameObject.isActive()) {
-                gameObject.update(delta);
-            } else {
-                iterator.remove();
-            }
-        }
     }
 
     @Override
@@ -119,7 +119,7 @@ public class GameScreen implements Screen {
 
     }
 
-    public static void addGameObject(GameObject gameObject) {
-        GAME_OBJECTS.add(gameObject);
+    public static void requestGameObjectUpdate(GameObject gameObject, GameObjectOperation operation) {
+        GAME_OBJECT_UPDATE_REQUESTS.addFirst(new GameObjectUpdateRequest(gameObject, operation));
     }
 }

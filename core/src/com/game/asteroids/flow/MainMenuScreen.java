@@ -1,4 +1,4 @@
-package com.game.asteroids;
+package com.game.asteroids.flow;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.game.asteroids.input.MainMenuInputProcessor;
 
 public class MainMenuScreen implements Screen {
     private final BitmapFont FONT;
