@@ -1,7 +1,8 @@
-package com.game.asteroids;
+package com.game.asteroids.input;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputProcessor;
+import com.game.asteroids.flow.GameScreen;
 
 public class MainMenuInputProcessor implements InputProcessor {
     private final GameScreen GAME_SCREEN;

@@ -1,4 +1,4 @@
-package com.game.asteroids;
+package com.game.asteroids.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;

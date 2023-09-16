@@ -1,8 +1,10 @@
-package com.game.asteroids;
+package com.game.asteroids.flow;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.game.asteroids.input.MainMenuInputProcessor;
+import com.game.asteroids.input.SpaceshipInput;
 
 public class Asteroids extends Game {
 	private SpriteBatch batch;

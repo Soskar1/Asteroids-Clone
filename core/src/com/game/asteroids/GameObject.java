@@ -2,6 +2,7 @@ package com.game.asteroids;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 import java.awt.*;
@@ -41,12 +42,12 @@ public abstract class GameObject {
         return new Vector2(rectangle.x, rectangle.y);
     }
 
-    public void setPosition(Vector2 position) {
-        rectangle.x = (int)position.x;
-        rectangle.y = (int)position.y;
+    public void setPosition(Vector2 newPosition) {
+        rectangle.x = (int)newPosition.x;
+        rectangle.y = (int)newPosition.y;
 
         if (sprite != null) {
-            sprite.setPosition(position.x, position.y);
+            sprite.setPosition(newPosition.x, newPosition.y);
         }
     }
 

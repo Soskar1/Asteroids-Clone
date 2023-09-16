@@ -1,4 +1,4 @@
-package com.game.asteroids;
+package com.game.asteroids.objectpool;
 
 import com.badlogic.gdx.utils.Queue;
 

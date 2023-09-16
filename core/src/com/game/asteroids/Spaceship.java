@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.game.asteroids.flow.GameScreen;
+import com.game.asteroids.input.InputAction;
+import com.game.asteroids.input.SpaceshipInput;
+import com.game.asteroids.objectpool.BulletObjectPool;
 
 import java.awt.*;
 
@@ -41,12 +45,12 @@ public class Spaceship extends GameObject {
     private void move(float deltaTime) {
         int movementInput = SPACESHIP_INPUT.getMovementInput();
         Vector2 movementDirection = rotateVector(new Vector2(0, movementInput));
-        Vector2 currentPosition = getPosition();
+        Vector2 position = getPosition();
 
-        currentPosition.x += movementDirection.x * MOVE_SPEED * deltaTime;
-        currentPosition.y += movementDirection.y * MOVE_SPEED * deltaTime;
+        position.x += movementDirection.x * MOVE_SPEED * deltaTime;
+        position.y += movementDirection.y * MOVE_SPEED * deltaTime;
 
-        setPosition(currentPosition);
+        setPosition(position);
     }
 
     private void rotate(float deltaTime) {
@@ -56,14 +60,15 @@ public class Spaceship extends GameObject {
     }
 
     private void shoot() {
-        Vector2 bulletMovementDirection = rotateVector(new Vector2(0,1));
         Bullet bullet = BULLET_OBJECT_POOL.dequeue();
+
+        Vector2 bulletMovementDirection = rotateVector(new Vector2(0,1));
         bullet.setMovementDirection(bulletMovementDirection);
 
         Vector2 spaceshipPosition = getPosition();
         bullet.setPosition(new Vector2(spaceshipPosition.x + getSprite().getWidth() / 2, spaceshipPosition.y + getSprite().getWidth() / 2));
 
-        GameScreen.addGameObject(bullet);
+        GameScreen.requestGameObjectUpdate(bullet, GameObjectOperation.ADD);
     }
 
     private Vector2 rotateVector(Vector2 source) {

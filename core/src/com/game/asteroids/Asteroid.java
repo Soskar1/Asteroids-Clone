@@ -2,33 +2,33 @@ package com.game.asteroids;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.game.asteroids.flow.GameScreen;
-import com.game.asteroids.objectpool.BulletObjectPool;
+import com.game.asteroids.objectpool.AsteroidObjectPool;
 
 import java.awt.*;
 
-public class Bullet extends GameObject {
+public class Asteroid extends GameObject {
     private Vector2 movementDirection;
-    private final float SPEED = 750;
-    private final BulletObjectPool BULLET_OBJECT_POOL;
+    private final int SPEED = 100;
+    private final int ROTATION_SPEED = 250;
+    private final AsteroidObjectPool OBJECT_POOL;
 
-    public Bullet(BulletObjectPool objectPool) {
-        Texture texture = new Texture(Gdx.files.internal("Bullet.png"));
+    public Asteroid(AsteroidObjectPool objectPool) {
+        Texture texture = new Texture(Gdx.files.internal("Asteroid.png"));
         setSprite(texture);
         setRectangle(new Rectangle(texture.getWidth(), texture.getHeight()));
 
-        movementDirection = Vector2.Zero;
-        BULLET_OBJECT_POOL = objectPool;
+        OBJECT_POOL = objectPool;
     }
 
     @Override
     public void update(float deltaTime) {
         move(deltaTime);
+        rotate(deltaTime);
 
         if (OutOfBounds.isInOutOfBounds(getPosition())) {
-            GameScreen.requestGameObjectUpdate(this, GameObjectOperation.REMOVE);
-            BULLET_OBJECT_POOL.enqueue(this);
+            OBJECT_POOL.enqueue(this);
         }
     }
 
@@ -37,6 +37,11 @@ public class Bullet extends GameObject {
         position.x += movementDirection.x * SPEED * deltaTime;
         position.y += movementDirection.y * SPEED * deltaTime;
         setPosition(position);
+    }
+
+    private void rotate(float deltaTime) {
+        Sprite sprite = getSprite();
+        sprite.rotate(ROTATION_SPEED * deltaTime);
     }
 
     public void setMovementDirection(Vector2 movementDirection) {
