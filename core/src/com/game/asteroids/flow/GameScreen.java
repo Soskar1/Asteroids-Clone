@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.game.asteroids.*;
@@ -26,10 +27,8 @@ public class GameScreen implements Screen {
     private final static Queue<GameObjectUpdateRequest> GAME_OBJECT_UPDATE_REQUESTS = new Queue<>();
     private final ShapeRenderer SHAPE_RENDERER;
     private final boolean SHOW_SHAPES = false;
-    private final int BULLET_POOL_INITIAL_SIZE = 10;
-    private final int ASTEROID_POOL_INITIAL_SIZE = 10;
-    private final AsteroidObjectPool ASTEROID_OBJECT_POOL = new AsteroidObjectPool(ASTEROID_POOL_INITIAL_SIZE);
-    private final BulletObjectPool BULLET_OBJECT_POOL = new BulletObjectPool(BULLET_POOL_INITIAL_SIZE);
+    private final int BULLET_POOL_INITIAL_SIZE = 20;
+    private final int ASTEROID_POOL_INITIAL_SIZE = 20;
 
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         BATCH = game.getSpriteBatch();
@@ -37,9 +36,10 @@ public class GameScreen implements Screen {
         CAMERA.setToOrtho(false, 1280, 720);
 
         this.INPUT_PROCESSOR = inputProcessor;
-        Spaceship spaceship = new Spaceship(inputProcessor, BULLET_OBJECT_POOL);
+        Spaceship spaceship = new Spaceship(inputProcessor, new BulletObjectPool(BULLET_POOL_INITIAL_SIZE));
+        spaceship.setPosition(new Vector2(Gdx.graphics.getWidth() / 2 - 16, Gdx.graphics.getHeight() / 2 - 16));
         GAME_OBJECTS.add(spaceship);
-        GAME_OBJECTS.add(new AsteroidSpawner(ASTEROID_OBJECT_POOL, spaceship));
+        GAME_OBJECTS.add(new AsteroidSpawner(new AsteroidObjectPool(ASTEROID_POOL_INITIAL_SIZE), spaceship));
 
         SHAPE_RENDERER = new ShapeRenderer();
     }
