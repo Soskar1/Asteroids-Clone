@@ -27,8 +27,21 @@ public class Bullet extends GameObject {
         move(deltaTime);
 
         if (OutOfBounds.isInOutOfBounds(getPosition())) {
-            GameScreen.requestGameObjectUpdate(this, GameObjectOperation.REMOVE);
-            BULLET_OBJECT_POOL.enqueue(this);
+            disable();
+        }
+    }
+
+    @Override
+    public void disable() {
+        GameScreen.requestGameObjectUpdate(this, GameObjectOperation.REMOVE);
+        BULLET_OBJECT_POOL.enqueue(this);
+    }
+
+    @Override
+    public void onCollisionEnter(GameObject gameObject) {
+        if (gameObject instanceof Asteroid) {
+            disable();
+            gameObject.disable();
         }
     }
 
