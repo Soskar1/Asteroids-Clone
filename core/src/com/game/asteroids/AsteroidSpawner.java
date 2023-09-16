@@ -53,8 +53,8 @@ public class AsteroidSpawner extends GameObject {
 
     private Vector2 getDirectionToSpaceship(Vector2 asteroidPosition) {
         Vector2 spaceshipPosition = SPACESHIP.getPosition();
-        float x = spaceshipPosition.x - asteroidPosition.x;
-        float y = spaceshipPosition.y - asteroidPosition.y;
+        float x = spaceshipPosition.x - asteroidPosition.x + (float)SPACESHIP.getRectangle().getWidth() / 2;
+        float y = spaceshipPosition.y - asteroidPosition.y + (float)SPACESHIP.getRectangle().getHeight() / 2;
 
         return new Vector2(x, y).nor();
     }

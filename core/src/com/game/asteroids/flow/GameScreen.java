@@ -3,10 +3,12 @@ package com.game.asteroids.flow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -29,11 +31,15 @@ public class GameScreen implements Screen {
     private final int ASTEROID_POOL_INITIAL_SIZE = 20;
     private static boolean gameOver = false;
 
+    private final ShapeRenderer SHAPE_RENDERER;
+    private final boolean SHOW_SHAPES = false;
+
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         BATCH = game.getSpriteBatch();
         FONT = game.getBitmapFont();
         CAMERA.setToOrtho(false, 1280, 720);
         this.INPUT_PROCESSOR = inputProcessor;
+        SHAPE_RENDERER = new ShapeRenderer();
     }
 
     @Override
@@ -93,6 +99,22 @@ public class GameScreen implements Screen {
                 GAME_OBJECTS.remove(request.GAME_OBJECT);
             }
         }
+
+        if (!SHOW_SHAPES) {
+            return;
+        }
+
+        SHAPE_RENDERER.setProjectionMatrix(CAMERA.combined);
+        SHAPE_RENDERER.begin(ShapeRenderer.ShapeType.Line);
+        SHAPE_RENDERER.setColor(Color.GREEN);
+        for (GameObject gameObject : GAME_OBJECTS) {
+            Rectangle rectangle = gameObject.getRectangle();
+
+            if (rectangle != null) {
+                SHAPE_RENDERER.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            }
+        }
+        SHAPE_RENDERER.end();
     }
 
     @Override
