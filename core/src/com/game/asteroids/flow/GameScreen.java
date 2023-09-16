@@ -1,8 +1,10 @@
 package com.game.asteroids.flow;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -18,15 +20,18 @@ import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private final SpriteBatch BATCH;
+    private final BitmapFont FONT;
     private final SpaceshipInput INPUT_PROCESSOR;
     private final OrthographicCamera CAMERA = new OrthographicCamera();
     private final ArrayList<GameObject> GAME_OBJECTS = new ArrayList<>();
     private final static Queue<GameObjectUpdateRequest> GAME_OBJECT_UPDATE_REQUESTS = new Queue<>();
     private final int BULLET_POOL_INITIAL_SIZE = 20;
     private final int ASTEROID_POOL_INITIAL_SIZE = 20;
+    private static boolean gameOver = false;
 
     public GameScreen(Asteroids game, final SpaceshipInput inputProcessor) {
         BATCH = game.getSpriteBatch();
+        FONT = game.getBitmapFont();
         CAMERA.setToOrtho(false, 1280, 720);
         this.INPUT_PROCESSOR = inputProcessor;
     }
@@ -43,6 +48,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        ScreenUtils.clear(0, 0, 0, 1);
+        CAMERA.update();
+        BATCH.setProjectionMatrix(CAMERA.combined);
+
+        if (gameOver) {
+            BATCH.begin();
+            FONT.draw(BATCH, "GAME OVER", 565, 360);
+            BATCH.end();
+            return;
+        }
+
         for (GameObject gameObject : GAME_OBJECTS) {
             if (gameObject.isActive()) {
                 gameObject.update(delta);
@@ -50,10 +66,6 @@ public class GameScreen implements Screen {
         }
 
         detectCollisions();
-
-        ScreenUtils.clear(0, 0, 0, 1);
-        CAMERA.update();
-        BATCH.setProjectionMatrix(CAMERA.combined);
 
         BATCH.begin();
         for (GameObject gameObject : GAME_OBJECTS) {
@@ -126,5 +138,9 @@ public class GameScreen implements Screen {
                 }
             }
         }
+    }
+
+    public static void endGame() {
+        gameOver = true;
     }
 }

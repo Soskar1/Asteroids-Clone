@@ -46,6 +46,7 @@ public class Spaceship extends GameObject {
     @Override
     public void onCollisionEnter(GameObject gameObject) {
         if (gameObject instanceof Asteroid) {
+            GameScreen.endGame();
         }
     }
 
