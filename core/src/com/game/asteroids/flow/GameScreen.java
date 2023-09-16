@@ -30,6 +30,7 @@ public class GameScreen implements Screen {
     private final int BULLET_POOL_INITIAL_SIZE = 20;
     private final int ASTEROID_POOL_INITIAL_SIZE = 20;
     private static boolean gameOver = false;
+    private static int score = 0;
 
     private final ShapeRenderer SHAPE_RENDERER;
     private final boolean SHOW_SHAPES = false;
@@ -64,7 +65,9 @@ public class GameScreen implements Screen {
         if (gameOver) {
             BATCH.begin();
             FONT.draw(BATCH, "GAME OVER", 565, 360);
-            FONT.draw(BATCH, "Press SPACE to restart", 540, 340);
+            FONT.draw(BATCH, "Your score: " + score, 565, 340);
+            FONT.draw(BATCH, "Press SPACE to restart", 535, 320);
+
             BATCH.end();
 
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -175,10 +178,15 @@ public class GameScreen implements Screen {
         gameOver = true;
     }
 
+    public static void addScore() {
+        ++score;
+    }
+
     private void restartGame() {
         GAME_OBJECTS.clear();
         GAME_OBJECT_UPDATE_REQUESTS.clear();
 
+        score = 0;
         initialize();
         gameOver = false;
     }

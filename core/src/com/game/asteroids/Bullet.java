@@ -42,6 +42,7 @@ public class Bullet extends GameObject {
         if (gameObject instanceof Asteroid) {
             disable();
             gameObject.disable();
+            GameScreen.addScore();
         }
     }
 
